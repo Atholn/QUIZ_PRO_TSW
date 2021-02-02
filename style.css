@@ -37,19 +37,10 @@ ul {
   list-style-type: none;
 }
 
-.main {
-  text-align: center;
-  margin: 0;
-  padding-left: 20px;
-  padding-bottom: 20px;
-  padding-top: 20px;
-  background-color: white;
-  width: auto;
-}
-
-.buttons{
+.button{
   text-align: center;
   background: #ff0303;
+
 }
 .quizHeader{
   padding: 100px;
@@ -57,6 +48,6 @@ ul {
   text-align: center;
   font-style: italic;
   font-size: 50px;
-  color: rgb(128, 140, 136);
+  color: #ddff00;
   background: #ff0303;
 }

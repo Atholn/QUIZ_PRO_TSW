@@ -7,16 +7,16 @@
   <xsl:template match="quiz">
     <quiz>
       <xsl:for-each select="t">
-        <zadanie>       
-          <pytanie><xsl:value-of select="q"/></pytanie> 
-          <odpowiedzi>
-            <odpowiedz><xsl:value-of select="a1"/></odpowiedz> 
-            <odpowiedz><xsl:value-of select="a2"/></odpowiedz> 
-            <odpowiedz><xsl:value-of select="a3"/></odpowiedz> 
-            <odpowiedz><xsl:value-of select="a4"/></odpowiedz> 
-          </odpowiedzi>
-          <prawidlowaOdpowiedz><xsl:value-of select="c"/></prawidlowaOdpowiedz>
-        </zadanie>
+        <question>       
+          <ask><xsl:value-of select="q"/></ask> 
+          <answers>
+            <answer><xsl:value-of select="a1"/></answer> 
+            <answer><xsl:value-of select="a2"/></answer> 
+            <answer><xsl:value-of select="a3"/></answer> 
+            <answer><xsl:value-of select="a4"/></answer> 
+          </answers>
+          <correctAnswer><xsl:value-of select="c"/></correctAnswer>
+        </question>
       </xsl:for-each>
     </quiz>
   </xsl:template>

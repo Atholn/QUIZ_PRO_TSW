@@ -1,138 +1,77 @@
-var sum = 0;
+var sum , qNum, xmlDoc, questions;
 
 function quizStart() {
-  var quizData, xmlDoc;
-  quizData = [{number: 0}];
-  var qNum = 0;
+  sum = 0;
+  qNum = 0;
+
   loadXMLDoc("XMLtransform.xsl", function(xslhttp) {
   loadXMLDoc("test.xml", function(xmlhttp) {
       xmlDoc = transformXMLDoc(xmlhttp.responseXML, xslhttp.responseXML);
-      displayQuiz(quizData, xmlDoc);  //xmlhttp.responseXML
-      taskSelection(quizData, xmlDoc);  //xmlhttp.responseXML
+      questions = xmlDoc.getElementsByTagName('question');
+      displayQuiz(); 
     });
   });
 }
 
 
-function displayQuiz(quizData, xmlDoc) {
-	var x, i, l, list;
-	l = quizData[0].number;
-	list = '<ul class="quiz">';
-	x = xmlDoc.getElementsByTagName('zadanie');
-	if (l < 0) {
-		l = 0;
-  } 
+function displayQuiz() {
+  var  actualQuest, quiz, buttons;
+  actualQuest = qNum;
 
-  if (l== x.length) list= '<center> Brawo zdobyłeś:' + sum + ' punktów! spróbuj jeszcze raz!</center>';
-  
+
+	quiz = '<ul class="quiz">';
+  if (actualQuest == questions.length) quiz = '<center> Brawo zdobyłeś: ' + sum + '/' + questions.length+ ' punktów! spróbuj jeszcze raz!</center>';
   else {
-  list +='<li> <b>'+(l+1)+'/'+x.length +'</b> <br> ' +
-  x[l].getElementsByTagName('pytanie')[0].childNodes[0].nodeValue +'</li><br>';
-  list += '';
-
-  odpowiedzi = x[l].getElementsByTagName('odpowiedzi')[0].getElementsByTagName('odpowiedz');
-    for (i = 0; i < odpowiedzi.length; i++) {
-      list += `
-        <input type="radio" id="odp${i}" name="odp" value="${odpowiedzi[i].childNodes[0].nodeValue}"
-        <p> ${odpowiedzi[i].childNodes[0].nodeValue} </p>
-      `;
-    }
-
-
-}
-	
-list += '</ul>'; 
-document.getElementsByClassName('quiz')[0].innerHTML = list; 
-}
-
-function checkAnswer(x, l) {
-  var a, o, i, j, temp, ans;
-  temp = "";
-  ans = false;
-  
-    a = x[l].getElementsByTagName("prawidlowaOdpowiedz")[0].childNodes[0].nodeValue;
-    o = document.getElementsByName('odp');
-    for (i = 0; i < o.length; i++) {
-      if(o[i].checked) {
-        if(a == (i+1)) {
-          ans = true;
-          sum++;
-        }
-      }
-    }
-  return ans;
-}
-
-function taskSelection(quizData, xmlDoc) {
-  var x, l, controls, ans;
-  l = quizData[0].number;
-  x = xmlDoc.getElementsByTagName("zadanie");
-  controls = '';
-  if((l > 0) && (l < x.length)) {
-    controls += '<button type="button" class="btn" id="btn1">Poprzednie</button>';
-  }
-  if(l < (x.length-1)) {
-    controls += '<button type="button" class="btn" id="btn2">Następne</button>';
-  }
-  if(l == (x.length -1)) {
-    controls += '<button type="button" class="btn" id="btn3">Zakoncz QUIZ</button>';
-  }
-  if(l == (x.length )) {
+      quiz +='<li> <b>'+(actualQuest+1)+'/'+questions.length +'</b> <br> ' +
+      questions[actualQuest].getElementsByTagName('ask')[0].childNodes[0].nodeValue +'</li><br>';
     
-    controls += '<button type="button" class="btn" id="btn4">Rozpocznij od nowa+' +sum+' </button>';
-  }
-  document.getElementsByClassName("buttons")[0].innerHTML = controls;
+      answers = questions[actualQuest].getElementsByTagName('answers')[0].getElementsByTagName('answer');
   
-  if((l > 0) && (l < x.length)) {
-    document.getElementById("btn1").addEventListener("click", function() {
-      ans = checkAnswer(x, l);
-      quizData.push([{task: (l+1)}, {answer: ans}]);
-      if(l > 0) {
-        quizData[0].number = l-1;
-      }
-      
-      displayQuiz(quizData, xmlDoc);
-      taskSelection(quizData, xmlDoc);
-    });
-  }
+      for (var i = 0; i < answers.length; i++) 
+      quiz += `<input type="radio" id="odp${i}" name="odp" value="${answers[i].childNodes[0].nodeValue}" <p> ${answers[i].childNodes[0].nodeValue} </p>`;
+    }
+  quiz += '</ul>'; 
 
-  if(l < (x.length-1)) {
-    document.getElementById("btn2").addEventListener("click", function() {
-      ans = checkAnswer(x, l);
-      quizData.push([{task: (l+1)}, {answer: ans}]);
-      if(l < (x.length-1)) {
-        quizData[0].number = l+1;
-      }
-      
-      displayQuiz(quizData, xmlDoc);
-      taskSelection(quizData, xmlDoc);
-    });
-  }
 
-  if(l == (x.length-1)){
-    document.getElementById("btn3").addEventListener("click", function(){
-      ans = checkAnswer(x, l);
-      quizData.push([{task: (l+1)}, {answer: ans}]);
-      if(l == (x.length-1)) {
-        quizData[0].number = l+1;
-      }
-     
-      taskSelection(quizData, xmlDoc);    
-      displayQuiz(quizData, xmlDoc);    
-    });
-  }
+  if(actualQuest < (questions.length-1)) 
+    buttons = '<button type="button" class="btn" id="b1">Następne</button>';
+  else if(actualQuest == (questions.length -1)) 
+    buttons = '<button type="button" class="btn" id="b1">Zakoncz QUIZ</button>';
+  else if(actualQuest == (questions.length )) 
+    buttons = '<button type="button" class="btn" id="b3">Rozpocznij od nowa</button>';
 
-  if(l == (x.length)) {
-    
-    document.getElementById("btn4").addEventListener("click", function(){
-      
-      quizStart();
-      
+
+  document.getElementsByClassName('quiz')[0].innerHTML = quiz; 
+  document.getElementsByClassName("button")[0].innerHTML = buttons;
+
+  if(actualQuest <= (questions.length-1)) {
+    document.getElementById("b1").addEventListener("click", function() {
+      ifCorrectAnswer( actualQuest);   
+      qNum = actualQuest+1;
+      displayQuiz();
+    });
+  } else if(actualQuest == (questions.length)) {  
+    document.getElementById("b3").addEventListener("click", function(){
+    quizStart();
   });}
 }
 
+
+function ifCorrectAnswer( actualQuest) {
+  var correctAnswer, answer;
+
+  correctAnswer = questions[actualQuest].getElementsByTagName("correctAnswer")[0].childNodes[0].nodeValue;
+  answer = document.getElementsByName('odp');
+
+    for (var i = 0; i < answer.length; i++) 
+      if(answer[i].checked) 
+        if(correctAnswer == (i+1)) 
+          sum++;
+}
+
+
 function transformXMLDoc(xml, xsl) {
-  var xsltProcessor, parser, resultDocument;
+  var xsltProcessor, resultDocument;
   try {
  if(document.implementation && document.implementation.createDocument) {
       xsltProcessor = new XSLTProcessor();
@@ -146,38 +85,15 @@ function transformXMLDoc(xml, xsl) {
         alert(err.message);
       }
     }
-    else {
-      alert(err);
-    }
+    else  alert(err);
   }
-  
   return resultDocument;
 }
 
 function loadXMLDoc(fileName, callback) {
   var xhttp;
-  //For IE
-  if(window.ActiveXObject) {
-    try {
-      xhttp = new ActiveXObject("Msxml2.XMLHTTP");
-    }
-    catch (e1) {
-      try {
-        xhttp = new ActiveXObject("Microsoft.XMLHTTP");
-      }
-      catch (e2) {}
-    }
-  }
-  //For Chrome, Firefox, Opera, etc.
-  else {
-    xhttp = new XMLHttpRequest();
-  }
-  
-  if(!xhttp) {
-    window.alert("Brak wsparcia AJAX!");
-    return false;
-  }
-  
+  xhttp = new XMLHttpRequest();
+
   xhttp.onreadystatechange = function() {
     if(this.readyState == 4 && this.status == 200) {
       callback(this);
@@ -188,10 +104,7 @@ function loadXMLDoc(fileName, callback) {
   };
   
   xhttp.open("GET", fileName , true);
-  try {
-    xhttp.responseType = "msxml-document";
-  }
-  catch(err) {}  //For IE11
+
   xhttp.send();
 }
 
