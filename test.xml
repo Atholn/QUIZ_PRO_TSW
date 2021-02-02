@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/xsl" href="transformacjaXML.xsl"?>
+<!-- 
+  t - task dane pytanie
+  q - question - tresc pytania
+  a1, a2, a3, a4 - odpowiedzi
+  c- correct - poprawna odpowiedz
+  quiz to quiz
+ -->
+<quiz>
+<!-- 1 -->
+  <t>
+    <q>Czy awokado to awokado?</q> 
+    <a1>Taaak</a1> 
+    <a2>Nie</a2> 
+    <a3>może</a3> 
+    <a4>Nie wiadomo</a4> 
+    <c>1</c>
+  </t>
+
+  <!-- 2 -->
+  <t>
+    <q>Rozwin skrót TSW </q> 
+    <a1>Technologie sieci WEB</a1> 
+    <a2>Web technology</a2> 
+    <a3>Technologie sieci web oraz Java</a3> 
+    <a4>Programowanie w cpp</a4> 
+    <c>1</c>
+  </t>
+
+  <!-- 3 -->
+  <t>
+    <q>Angular to : </q> 
+    <a1>język programowania wywodzący się z języka C</a1> 
+    <a2>otwarty framework i platforma do tworzenia SPA, </a2> 
+    <a3>bazy danych </a3> 
+    <a4>każda odpowiedź jest nie poprawna</a4> 
+    <c>2</c>
+  </t>
+
+  <!-- 4 -->
+  <t>
+    <q>Rozwin skrót TSW </q> 
+    <a1>Technologie sieci WEB</a1> 
+    <a2>Web technology</a2> 
+    <a3>Technologie sieci web oraz Java</a3> 
+    <a4>Programowanie w cpp</a4> 
+    <c>1</c>
+  </t>
+
+  <!-- 5 -->
+  <t>
+    <q>Dlaczego Notatnik jest lepszy od visual studio code?</q> 
+    <a1>Nie wiem</a1> 
+    <a2>Nie jest</a2> 
+    <a3>Bo można zmienić wszystkie wyszukane słowa</a3> 
+    <a4>Wszystkie odpowiedzi są poprawne</a4> 
+    <c>3</c>
+  </t>
+
+  <!-- 6 -->
+  <t>
+    <q>Co to REST API?</q> 
+    <a1>REST API jest to uniwersalny interfejs HTTP do komunikacji między oprogramowaniem klienta a serwerem za pośrednictwem sieci.</a1> 
+    <a2>otwarty framework i platforma do tworzenia SPA, napisany w języku TypeScript i wspierany oraz rozwijany przez Google. Wikipedia</a2> 
+    <a3>Technologie sieci web oraz Java</a3> 
+    <a4>język programowania ogólnego przeznaczenia. Język został zaprojektowany przez Bjarne Stroustrupa jako rozszerzenie języka C o obiektowe mechanizmy abstrakcji danych i silną statyczną kontrolę typów</a4> 
+    <c>1</c>
+  </t>
+
+  <!-- 7 -->
+  <t>
+    <q>Z czego składa się przedmiot TSW? </q> 
+    <a1>Laboratoria + wykład</a1> 
+    <a2>Cwiczenia + laboratoria</a2> 
+    <a3>Cwiczenia + laboratoria + wykład</a3> 
+    <a4>Wykład </a4> 
+    <c>1</c>
+  </t>
+
+  <!-- 8 -->
+  <t>
+    <q>Co to C++ </q> 
+    <a1>język programowania ogólnego przeznaczenia. Język został zaprojektowany przez Bjarne Stroustrupa jako rozszerzenie języka C o obiektowe mechanizmy abstrakcji danych i silną statyczną kontrolę typów</a1> 
+    <a2>Freamwork JS</a2> 
+    <a3>Narzędzie do FRONTENDU</a3> 
+    <a4>Sztuczna inteligencja</a4> 
+    <c>1</c>
+  </t>
+
+    <!-- 9 -->
+  <t>
+    <q>Wybierz Technologie sieci WEB </q> 
+    <a1>Html, C++, JS</a1> 
+    <a2>JS, Vue.js, HTML</a2> 
+    <a3>.NET</a3> 
+    <a4>CPP, .NET, Java</a4> 
+    <c>2</c>
+  </t>
+
+    <!-- 10 -->
+  <t>
+    <q> D </q> 
+    <a1>D</a1> 
+    <a2>C</a2> 
+    <a3>B</a3> 
+    <a4>A</a4> 
+    <c>4</c>
+  </t>
+</quiz>
