@@ -3,8 +3,9 @@ var sum = 0;
 function quizStart() {
   var quizData, xmlDoc;
   quizData = [{number: 0}];
+  var qNum = 0;
   loadXMLDoc("XMLtransform.xsl", function(xslhttp) {
-    loadXMLDoc("test.xml", function(xmlhttp) {
+  loadXMLDoc("test.xml", function(xmlhttp) {
       xmlDoc = transformXMLDoc(xmlhttp.responseXML, xslhttp.responseXML);
       displayQuiz(quizData, xmlDoc);  //xmlhttp.responseXML
       taskSelection(quizData, xmlDoc);  //xmlhttp.responseXML
@@ -20,26 +21,28 @@ function displayQuiz(quizData, xmlDoc) {
 	x = xmlDoc.getElementsByTagName('zadanie');
 	if (l < 0) {
 		l = 0;
-	} else if (l >= x.length) {
-		l = x.length - 1;
-	} 
-	list +=
-		'<li> <b>'+(l+1)+'/'+x.length +'</b> <br> ' +
-		x[l].getElementsByTagName('pytanie')[0].childNodes[0].nodeValue +
-		'</li><br>';
+  } 
 
-	list += '<li >';
+  if (l== x.length) list= '<center> Brawo zdobyłeś:' + sum + ' punktów! spróbuj jeszcze raz!</center>';
+  
+  else {
+  list +='<li> <b>'+(l+1)+'/'+x.length +'</b> <br> ' +
+  x[l].getElementsByTagName('pytanie')[0].childNodes[0].nodeValue +'</li><br>';
+  list += '';
 
-			odpowiedzi = x[l].getElementsByTagName('odpowiedzi')[0].getElementsByTagName('odpowiedz');
-			for (i = 0; i < odpowiedzi.length; i++) {
-				list += `<label>
-          <input type="radio" id="odp${i}" name="odp" value="${odpowiedzi[i].childNodes[0].nodeValue}"
-          <p> ${odpowiedzi[i].childNodes[0].nodeValue} </p>
-        </label>`;
-			}
+  odpowiedzi = x[l].getElementsByTagName('odpowiedzi')[0].getElementsByTagName('odpowiedz');
+    for (i = 0; i < odpowiedzi.length; i++) {
+      list += `
+        <input type="radio" id="odp${i}" name="odp" value="${odpowiedzi[i].childNodes[0].nodeValue}"
+        <p> ${odpowiedzi[i].childNodes[0].nodeValue} </p>
+      `;
+    }
 
-	list += '</li></ul>';
-	document.getElementsByClassName('quiz')[0].innerHTML = list;
+
+}
+	
+list += '</ul>'; 
+document.getElementsByClassName('quiz')[0].innerHTML = list; 
 }
 
 function checkAnswer(x, l) {
@@ -74,9 +77,9 @@ function taskSelection(quizData, xmlDoc) {
   if(l == (x.length -1)) {
     controls += '<button type="button" class="btn" id="btn3">Zakoncz QUIZ</button>';
   }
-  if(l == (x.length +1)) {
+  if(l == (x.length )) {
     
-    controls += '<button type="button" class="btn" id="btn4">Rozpocznij od nowa </button>';
+    controls += '<button type="button" class="btn" id="btn4">Rozpocznij od nowa+' +sum+' </button>';
   }
   document.getElementsByClassName("buttons")[0].innerHTML = controls;
   
@@ -92,6 +95,7 @@ function taskSelection(quizData, xmlDoc) {
       taskSelection(quizData, xmlDoc);
     });
   }
+
   if(l < (x.length-1)) {
     document.getElementById("btn2").addEventListener("click", function() {
       ans = checkAnswer(x, l);
@@ -104,25 +108,26 @@ function taskSelection(quizData, xmlDoc) {
       taskSelection(quizData, xmlDoc);
     });
   }
+
   if(l == (x.length-1)){
     document.getElementById("btn3").addEventListener("click", function(){
       ans = checkAnswer(x, l);
       quizData.push([{task: (l+1)}, {answer: ans}]);
-      if(l == (x.length)) {
+      if(l == (x.length-1)) {
         quizData[0].number = l+1;
       }
-      l=l+2;
-      taskSelection(quizData, xmlDoc);
-      displayQuiz(quizData, xmlDoc);
-      document.getElementsByClassName('quiz')[0].innerHTML = x.length + ' ' + l;
-      document.getElementsByClassName("buttons")[0].innerHTML = '<button type="button" class="btn" id="btn4">Rozpocznij od nowa </button>';
-      
+     
+      taskSelection(quizData, xmlDoc);    
+      displayQuiz(quizData, xmlDoc);    
     });
   }
-  if(l == (x.length+1)) {
+
+  if(l == (x.length)) {
     
     document.getElementById("btn4").addEventListener("click", function(){
-      document.getElementsByClassName('quiz')[0].innerHTML = 'dupa';
+      
+      quizStart();
+      
   });}
 }
 
